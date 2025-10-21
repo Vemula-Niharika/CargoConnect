@@ -8,6 +8,8 @@ It streamlines logistics operations by enabling administrators to manage **drive
 Logistics companies often face challenges managing multiple resources such as drivers, vehicles, and deliveries.  
 **CargoConnect** automates these tasks by providing an easy-to-use web interface and backend system to organize cargo operations, minimize manual errors, and improve efficiency.
 
+Note: The project is internally named "abclogistics" and uses a database named "abclogistics". The repository is named "CargoConnect" for branding purposes.
+
 ## 🌟 Features
 
 ### 👨‍💼 Admin Panel
