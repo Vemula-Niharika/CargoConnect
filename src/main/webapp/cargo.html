@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manage Cargo</title>
+<style>
+body { font-family: Arial; background:#f0f2f5; margin:0; padding:20px; }
+h1 { color:#28a745; }
+form { background:white; padding:20px; border-radius:10px; margin-bottom:20px; }
+input, button { padding:10px; margin:5px 0; width:100%; }
+button { cursor:pointer; background:#28a745; color:white; border:none; border-radius:5px; }
+button:hover { background:#218838; }
+table { width:100%; border-collapse:collapse; background:white; margin-top:20px; }
+th, td { border:1px solid #ddd; padding:10px; text-align:center; }
+th { background:#28a745; color:white; }
+</style>
+</head>
+<body>
+<h1>Manage Cargo</h1>
+
+<form id="cargoForm">
+  <input type="number" id="cargoId" placeholder="Cargo ID" required>
+  <input type="text" id="cargoName" placeholder="Cargo Name" required>
+  <input type="text" id="cargoDescription" placeholder="Description" required>
+  <input type="number" id="cargoWeight" placeholder="Weight" required>
+  <input type="number" id="cargoCount" placeholder="Count" required>
+  <button type="submit">Add Cargo</button>
+</form>
+
+<table id="cargoTable">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Weight</th>
+      <th>Count</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<script>
+const backend="http://localhost:8080/admin";
+
+async function loadCargo() {
+  // Fetch all orders to extract cargo data
+  const res = await fetch('http://localhost:8080/admin/orders'); // You may need a GET endpoint for orders
+  const data = await res.json();
+  const tbody = document.querySelector("#cargoTable tbody");
+  tbody.innerHTML = "";
+  data.forEach(order => {
+    const cargo = order.data.cargo;
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${cargo.id}</td>
+      <td>${cargo.name}</td>
+      <td>${cargo.description}</td>
+      <td>${cargo.weight}</td>
+      <td>${cargo.count}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+document.getElementById('cargoForm').addEventListener('submit', async(e)=>{
+  e.preventDefault();
+  const orderId = prompt("Enter Order ID to attach cargo:"); // Since cargo is inside order
+  const cargo = {
+    cargoid: document.getElementById('cargoId').value,
+    cargoname: document.getElementById('cargoName').value,
+    cargodescription: document.getElementById('cargoDescription').value,
+    cargoweight: document.getElementById('cargoWeight').value,
+    cargocount: document.getElementById('cargoCount').value,
+    id: orderId
+  };
+  
+  const res = await fetch(`http://localhost:8080/user/placeuserorder`,{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify(cargo)
+  });
+  const data = await res.json();
+  alert(data.message);
+  loadCargo();
+});
+
+loadCargo();
+</script>
+</body>
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Driver Management</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f4f4f9; }
+        h1, h3 { color: #333; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        th, td { padding: 12px; border: 1px solid #ddd; text-align: left; }
+        th { background-color: #007BFF; color: white; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        button { padding: 5px 10px; margin: 2px; cursor: pointer; border: none; border-radius: 4px; background-color: #28a745; color: white; }
+        button.delete-btn { background-color: #dc3545; }
+        select, input { padding: 5px; margin-right: 5px; border-radius: 4px; border: 1px solid #ccc; }
+        .form-container { margin-bottom: 20px; background: #fff; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body>
+
+<h1>Driver Management</h1>
+
+<div class="form-container">
+    <h3>Add / Update Driver</h3>
+    <input type="number" id="driverId" placeholder="Driver ID">
+    <input type="text" id="driverName" placeholder="Driver Name">
+    <input type="number" id="driverContact" placeholder="Contact Number">
+    <button onclick="addDriver()">Save Driver</button>
+</div>
+
+<div class="form-container">
+    <h3>Assign Truck & Carrier to Driver</h3>
+    <select id="driverSelect"></select>
+    <select id="truckSelect"></select>
+    <select id="carrierSelect"></select>
+    <button onclick="assignDriver()">Assign</button>
+</div>
+
+<h3>All Drivers</h3>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Contact</th>
+            <th>Truck</th>
+            <th>Carrier</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody id="driverTable"></tbody>
+</table>
+
+<script>
+const apiBase = "http://localhost:8080/admin";
+
+// Load drivers and populate table & dropdown
+async function loadDrivers() {
+    try {
+        const res = await fetch(`${apiBase}/getAllDrivers`);
+        const data = await res.json();
+        const drivers = data.data || []; // safe fallback
+
+        const table = document.getElementById("driverTable");
+        const driverSelect = document.getElementById("driverSelect");
+        table.innerHTML = "";
+        driverSelect.innerHTML = "";
+
+        drivers.forEach(driver => {
+            table.innerHTML += `
+                <tr>
+                    <td>${driver.id}</td>
+                    <td>${driver.name}</td>
+                    <td>${driver.contact}</td>
+                    <td>${driver.truck ? driver.truck.name : '-'}</td>
+                    <td>${driver.carrier ? driver.carrier.name : '-'}</td>
+                    <td>
+                        <button class="delete-btn" onclick="deleteDriver(${driver.id})">Delete</button>
+                    </td>
+                </tr>
+            `;
+            driverSelect.innerHTML += `<option value="${driver.id}">${driver.name}</option>`;
+        });
+    } catch (err) {
+        console.error("Error fetching drivers:", err);
+        alert("Failed to fetch drivers");
+    }
+}
+
+// Load trucks
+async function loadTrucks() {
+    try {
+        const res = await fetch(`${apiBase}/getAllTrucks`);
+        const trucks = await res.json();
+        const truckSelect = document.getElementById("truckSelect");
+        truckSelect.innerHTML = "";
+        trucks.forEach(truck => {
+            truckSelect.innerHTML += `<option value="${truck.id}">${truck.name}</option>`;
+        });
+    } catch (err) {
+        console.error("Error fetching trucks:", err);
+    }
+}
+
+// Load carriers
+async function loadCarriers() {
+    try {
+        const res = await fetch(`${apiBase}/getAllCarriers`);
+        const carriers = await res.json();
+        const carrierSelect = document.getElementById("carrierSelect");
+        carrierSelect.innerHTML = "";
+        carriers.forEach(carrier => {
+            carrierSelect.innerHTML += `<option value="${carrier.id}">${carrier.name}</option>`;
+        });
+    } catch (err) {
+        console.error("Error fetching carriers:", err);
+    }
+}
+
+// Add driver
+async function addDriver() {
+    const driver = {
+        id: document.getElementById("driverId").value,
+        name: document.getElementById("driverName").value,
+        contact: document.getElementById("driverContact").value
+    };
+    try {
+        const res = await fetch(`${apiBase}/saveDriver`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(driver)
+        });
+        const data = await res.json();
+        alert(data.message || "Driver saved");
+        loadDrivers();
+    } catch (err) {
+        console.error(err);
+        alert("Failed to save driver");
+    }
+}
+
+// Assign truck & carrier to driver
+async function assignDriver() {
+    const driverId = document.getElementById("driverSelect").value;
+    const truckId = document.getElementById("truckSelect").value;
+    const carrierId = document.getElementById("carrierSelect").value;
+
+    try {
+        // Correct URL matching backend
+        const res = await fetch(`${apiBase}/updatedriver/${driverId}/assigncarrier/${carrierId}/assigntruck/${truckId}`);
+        const data = await res.json();
+        alert(data.message || "Driver assigned successfully");
+        loadDrivers();
+    } catch (err) {
+        console.error("Error assigning driver:", err);
+        alert("Failed to assign driver");
+    }
+}
+
+// Delete driver
+async function deleteDriver(id) {
+    try {
+        const res = await fetch(`${apiBase}/deleteDriverByid/${id}`, { method: "POST" });
+        const data = await res.json();
+        alert(data.message || "Driver deleted");
+        loadDrivers();
+    } catch (err) {
+        console.error(err);
+        alert("Failed to delete driver");
+    }
+}
+
+// Initial load
+loadDrivers();
+loadTrucks();
+loadCarriers();
+</script>
+
+</body>
+</html>

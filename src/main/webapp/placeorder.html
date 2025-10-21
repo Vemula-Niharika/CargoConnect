@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Place Order</title>
+<style>
+body { font-family: Arial; background:#e0f7fa; padding:20px; }
+h1 { color:#00796b; text-align:center; }
+form { background:white; padding:20px; border-radius:10px; }
+input, button { padding:10px; margin:5px 0; width:100%; }
+button { cursor:pointer; background:#00796b; color:white; border:none; border-radius:5px; }
+button:hover { background:#004d40; }
+</style>
+</head>
+<body>
+<h1>Place Order</h1>
+
+<form id="orderForm">
+  <input type="number" id="orderId" placeholder="Order ID" required>
+  <input type="text" id="mail" placeholder="Email" required>
+  <input type="number" id="cargoId" placeholder="Cargo ID" required>
+  <input type="text" id="cargoName" placeholder="Cargo Name" required>
+  <input type="text" id="cargoDescription" placeholder="Cargo Description" required>
+  <input type="number" id="cargoWeight" placeholder="Cargo Weight" required>
+  <input type="number" id="cargoCount" placeholder="Cargo Count" required>
+  <input type="number" id="loadingAddressId" placeholder="Loading Address ID" required>
+  <input type="number" id="unloadingAddressId" placeholder="Unloading Address ID" required>
+  <button type="submit">Place Order</button>
+</form>
+
+<script>
+const backend = "http://localhost:8080/user";
+
+document.getElementById('orderForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const order = {
+    id: document.getElementById('orderId').value,
+    mail: document.getElementById('mail').value,
+    cargoid: document.getElementById('cargoId').value,
+    cargoname: document.getElementById('cargoName').value,
+    cargodescription: document.getElementById('cargoDescription').value,
+    cargoweight: document.getElementById('cargoWeight').value,
+    cargocount: document.getElementById('cargoCount').value,
+    loadingaddid: document.getElementById('loadingAddressId').value,
+    unloadingaddid: document.getElementById('unloadingAddressId').value
+  };
+
+  try {
+	  const res = await fetch(`${backend}/placeuserorder`, {
+	    method: 'POST',
+	    headers: { 'Content-Type': 'application/json' },
+	    body: JSON.stringify(order)
+	  });
+
+	  // Always read the response body as JSON
+	  const data = await res.json();
+
+	  if (!res.ok) {
+	    // Backend already sends a nice message via your GlobalException
+	    throw new Error(data.message || `Server error: ${res.status}`);
+	  }
+
+	  // If everything went fine
+	  alert(data.message || "Order placed successfully!");
+	} catch (err) {
+	  console.error(err);
+	  alert(err.message);
+	}
+
+});
+</script>
+
+</body>
+</html>
