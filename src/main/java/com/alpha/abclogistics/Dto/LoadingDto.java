@@ -1,28 +1,29 @@
 package com.alpha.abclogistics.Dto;
 
 public class LoadingDto {
-	private String Date;
-	private String Time;
+	private String date;
+	private String time;
 	public String getDate() {
-		return Date;
+		return date;
 	}
 	public void setDate(String date) {
-		Date = date;
+		this.date = date;
 	}
 	public String getTime() {
-		return Time;
+		return time;
 	}
 	public void setTime(String time) {
-		Time = time;
+		this.time = time;
 	}
 	public LoadingDto(String date, String time) {
 		super();
-		Date = date;
-		Time = time;
+		this.date = date;
+		this.time = time;
 	}
 	public LoadingDto() {
 		super();
 	}
 	
+
 
 }

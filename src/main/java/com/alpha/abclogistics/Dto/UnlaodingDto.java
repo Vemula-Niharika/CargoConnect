@@ -2,30 +2,28 @@ package com.alpha.abclogistics.Dto;
 
 
 public class UnlaodingDto {
-private String Date;
-private String Time;
+private String date;
+private String time;
 public String getDate() {
-	return Date;
+	return date;
 }
 public void setDate(String date) {
-	Date = date;
+	this.date = date;
 }
 public String getTime() {
-	return Time;
+	return time;
 }
-@Override
-public String toString() {
-	return "UnlaodingDto [Date=" + Date + ", Time=" + Time + "]";
+public void setTime(String time) {
+	this.time = time;
+}
+public UnlaodingDto(String date, String time) {
+	super();
+	this.date = date;
+	this.time = time;
 }
 public UnlaodingDto() {
 	super();
 }
-public UnlaodingDto(String date, String time) {
-	super();
-	Date = date;
-	Time = time;
-}
-public void setTime(String time) {
-	Time = time;
-}
+
+
 }

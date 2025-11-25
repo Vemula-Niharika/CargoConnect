@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -13,146 +14,187 @@
         color: #333;
     }
 
-    h1 {
-        text-align: center;
-        padding: 20px 0;
-        background: #2f3640;
-        color: #fff;
-        margin: 0;
-        letter-spacing: 1px;
-    }
 
-    .container {
-        width: 95%;
-        max-width: 1300px;
-        margin: 30px auto;
-        background: #fff;
-        padding: 25px;
-        border-radius: 10px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-    }
+h1 {
+    text-align: center;
+    padding: 20px 0;
+    background: #2f3640;
+    color: #fff;
+    margin: 0;
+    letter-spacing: 1px;
+}
 
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        border-radius: 8px;
-        overflow: hidden;
-    }
+.container {
+    width: 95%;
+    max-width: 1300px;
+    margin: 30px auto;
+    background: #fff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
 
-    th {
-        background-color: #2f3640;
-        color: white;
-        padding: 12px;
-        font-size: 14px;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-    }
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 8px;
+    overflow: hidden;
+}
 
-    td {
-        padding: 10px;
-        border-bottom: 1px solid #eee;
-        font-size: 14px;
-        text-align: center;
-    }
+th {
+    background-color: #2f3640;
+    color: white;
+    padding: 12px;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
 
-    tr:hover {
-        background-color: #f1f3f6;
-    }
+td {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+    text-align: center;
+}
 
-    select, input[type="date"], input[type="time"] {
-        padding: 5px 8px;
-        border: 1px solid #ccc;
-        border-radius: 6px;
-        outline: none;
-        font-size: 13px;
-        background: #fff;
-        transition: 0.2s;
-    }
+tr:hover {
+    background-color: #f1f3f6;
+}
 
-    select:focus, input:focus {
-        border-color: #007bff;
-        box-shadow: 0 0 4px rgba(0,123,255,0.3);
-    }
+select, input[type="date"], input[type="time"] {
+    padding: 5px 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+    font-size: 13px;
+    background: #fff;
+    transition: 0.2s;
+}
 
-    button {
-        padding: 6px 12px;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        color: white;
-        font-size: 13px;
-        transition: all 0.2s ease;
-    }
+select:focus, input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 4px rgba(0,123,255,0.3);
+}
 
-    button:hover {
-        transform: scale(1.05);
-    }
+button {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    color: white;
+    font-size: 13px;
+    transition: all 0.2s ease;
+}
 
-    button:nth-child(1) {
-        background-color: #007bff;
-    }
+button:hover {
+    transform: scale(1.05);
+}
 
-    button:nth-child(1):hover {
-        background-color: #0069d9;
-    }
+button:nth-child(1) {
+    background-color: #007bff;
+}
 
-    button:nth-child(2) {
-        background-color: #dc3545;
-    }
+button:nth-child(1):hover {
+    background-color: #0069d9;
+}
 
-    button:nth-child(2):hover {
-        background-color: #c82333;
-    }
+button:nth-child(2) {
+    background-color: #dc3545;
+}
 
-    .footer {
-        text-align: center;
-        margin-top: 30px;
-        color: #666;
-        font-size: 13px;
-    }
+button:nth-child(2):hover {
+    background-color: #c82333;
+}
+
+.footer {
+    text-align: center;
+    margin-top: 30px;
+    color: #666;
+    font-size: 13px;
+}
+
+
 </style>
 </head>
 <body>
     <h1>Order Management</h1>
 
-    <div class="container">
-        <table id="orderTable">
-            <thead>
-                <tr>
-                    <th>Order ID</th>
-                    <th>Cargo</th>
-                    <th>Loading City</th>
-                    <th>Loading Date</th>
-                    <th>Loading Time</th>
-                    <th>Unloading City</th>
-                    <th>Unloading Date</th>
-                    <th>Unloading Time</th>
-                    <th>Driver</th>
-                    <th>Truck</th>
-                    <th>Carrier</th>
-                    <th>Cost</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-    </div>
+```
+<div class="container">
+    <table id="orderTable">
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Cargo</th>
+                <th>Loading City</th>
+                <th>Loading Date</th>
+                <th>Loading Time</th>
+                <th>Unloading City</th>
+                <th>Unloading Date</th>
+                <th>Unloading Time</th>
+                <th>Driver</th>
+                <th>Truck</th>
+                <th>Carrier</th>
+                <th>Cost</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
 
-    <div class="footer">
-        © 2025 ABC Logistics | Admin Panel
-    </div>
+<div class="footer">
+    © 2025 ABC Logistics | Admin Panel
+</div>
+
+
+
 
 <script>
 const backend = "http://localhost:8080/admin";
 let drivers = [];
 
+// Load all drivers for dropdowns
 async function loadDrivers() {
     const res = await fetch(`${backend}/getAllDrivers`);
     const data = await res.json();
     drivers = data.data || [];
 }
 
+// Convert backend date/time → browser-friendly
+function formatDateForInput(d) {
+    if (!d) return "";
+    const parts = d.split("-");
+    return parts.length === 3 ? `${parts[2]}-${parts[1]}-${parts[0]}` : d; // dd-MM-yyyy → yyyy-MM-dd
+}
+function formatTimeForInput(t) {
+    if (!t) return "";
+    const match = t.match(/(\d{1,2}):(\d{2})/);
+    if (!match) return "";
+    let hours = parseInt(match[1]);
+    const minutes = match[2];
+    if (t.includes("PM") && hours < 12) hours += 12;
+    if (t.includes("AM") && hours === 12) hours = 0;
+    return `${String(hours).padStart(2, "0")}:${minutes}`;
+}
+
+// Convert browser date/time → backend format
+function formatDateForBackend(d) {
+    if (!d) return "";
+    const parts = d.split("-");
+    return `${parts[2]}-${parts[1]}-${parts[0]}`; // yyyy-MM-dd → dd-MM-yyyy
+}
+function formatTimeForBackend(t) {
+    if (!t) return "";
+    const [hours, minutes] = t.split(":");
+    let h = parseInt(hours);
+    const ampm = h >= 12 ? "PM" : "AM";
+    h = h % 12 || 12;
+    return `${h}:${minutes} ${ampm}`;
+}
+
+// Load all orders
 async function loadOrders() {
     const res = await fetch(`${backend}/getAllOrders`);
     const data = await res.json();
@@ -162,10 +204,10 @@ async function loadOrders() {
 
     orders.forEach(order => {
         const driverId = order.driver ? order.driver.id : '';
-        const loadDate = order.loading?.date || '';
-        const loadTime = order.loading?.time || '';
-        const unloadDate = order.unloading?.date || '';
-        const unloadTime = order.unloading?.time || '';
+        const loadDate = formatDateForInput(order.loading?.date);
+        const loadTime = formatTimeForInput(order.loading?.time);
+        const unloadDate = formatDateForInput(order.unloading?.date);
+        const unloadTime = formatTimeForInput(order.unloading?.time);
 
         const tr = document.createElement("tr");
         tr.innerHTML = `
@@ -198,6 +240,7 @@ async function loadOrders() {
     });
 }
 
+// ✅ Updated to use PUT methods
 async function updateOrder(orderId) {
     const driverId = document.querySelector(`#driver-${orderId}`).value;
     const loadDate = document.querySelector(`#loadDate-${orderId}`).value;
@@ -206,21 +249,34 @@ async function updateOrder(orderId) {
     const unloadTime = document.querySelector(`#unloadTime-${orderId}`).value;
 
     try {
+        // Assign driver
         if (driverId) {
-            await fetch(`${backend}/updateorder/${orderId}/assigndriver/${driverId}`);
-        }
-        if (loadDate && loadTime) {
-            await fetch(`${backend}/updateorder/${orderId}/updateloading`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ date: loadDate, time: loadTime })
+            await fetch(`${backend}/updateorder/${orderId}/assigndriver/${driverId}`, {
+                method: 'PUT'
             });
         }
+
+        // Update loading details
+        if (loadDate && loadTime) {
+            await fetch(`${backend}/updateorder/${orderId}/updateloading`, {
+                method: 'PUT', // ✅ FIXED (was POST)
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    date: formatDateForBackend(loadDate), 
+                    time: formatTimeForBackend(loadTime)
+                })
+            });
+        }
+
+        // Update unloading details
         if (unloadDate && unloadTime) {
             await fetch(`${backend}/updateorder/${orderId}/updateUnloading`, {
-                method: 'POST',
+                method: 'PUT', // ✅ FIXED (was POST)
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ date: unloadDate, time: unloadTime })
+                body: JSON.stringify({ 
+                    date: formatDateForBackend(unloadDate), 
+                    time: formatTimeForBackend(unloadTime)
+                })
             });
         }
 
@@ -233,6 +289,7 @@ async function updateOrder(orderId) {
     }
 }
 
+// ✅ DELETE request is already correct
 async function deleteOrder(orderId) {
     if (!confirm("Are you sure you want to delete this order?")) return;
     const res = await fetch(`${backend}/deleteorder/${orderId}`, { method: 'DELETE' });
@@ -244,10 +301,12 @@ async function deleteOrder(orderId) {
     }
 }
 
+// Initialize page
 (async function init() {
     await loadDrivers();
     await loadOrders();
 })();
 </script>
+
 </body>
 </html>

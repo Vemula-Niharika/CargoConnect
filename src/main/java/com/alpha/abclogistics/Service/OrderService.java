@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.alpha.abclogistics.Dto.LoadingDto;
 import com.alpha.abclogistics.Dto.OrderDto;
 import com.alpha.abclogistics.Dto.ResponseStructure;
 import com.alpha.abclogistics.Dto.UnlaodingDto;
@@ -55,54 +56,6 @@ public class OrderService {
 	    return orderrespository.findAll(); // assuming you have OrderRepository
 	}
 
-	
-	
-	
-	
-//	public ResponseEntity<ResponseStructure<Order>> placeuserorder(OrderDto orderDto) {
-//	
-//		Order order = new Order();
-//		
-//		order.setId(orderDto.getId());
-//		order.setOrderdate(orderDto.getOrderdate());
-//		order.setMail(orderDto.getMail());
-//		int cost = 10*(orderDto.getCargoweight()*orderDto.getCargocount());
-//		order.setCost(cost);
-//		Cargo cargo = new Cargo();
-//		cargo.setId(orderDto.getCargoid());
-//		cargo.setName(orderDto.getCargoname());
-//		cargo.setDescription(orderDto.getCargodescription());
-//		cargo.setWeight(orderDto.getCargoweight());
-//		cargo.setCount(orderDto.getCargocount());
-//		order.setCargo(cargo);
-//		
-//		Loading loading = new Loading();
-//		Address loadaddress = addressRespository.findById(orderDto.getLoadingaddid()).orElseThrow(()->new LoadingAddressNotPresenting());
-//		loading.setAddress(loadaddress);
-//		order.setLoading(loading);
-//	Unloading unloading = new Unloading();
-//		
-//		Address unloadadd = addressRespository.findById(orderDto.getUnloadingaddid()).orElseThrow(()-> new UnloadingAddressNotPresenting());
-//		unloading.setAddress(unloadadd);
-//		order.setUnloading(unloading);
-//		if(loadaddress==unloadadd) {
-//			throw new SameAddressNotPossibleException();
-//		}
-//		
-//		String subject="ORDER PLACED";
-//		String Content="Your oder placed from "+order.getLoading().getAddress().getCity()+"To "+order.getUnloading().getAddress().getCity();
-//				mailservice.sendMail(order.getMail(), subject, Content);
-//					
-//		Order or = orderrespository.save(order);
-//		ResponseStructure<Order> responseStructure = new ResponseStructure<Order>();
-//		responseStructure.setStatuscode(HttpStatus.CREATED.value());
-//		responseStructure.setMessage("ORDER PLACED SUCCESSFULLY");
-//		responseStructure.setData(or);
-//		return new ResponseEntity<ResponseStructure<Order>>(responseStructure,HttpStatus.CREATED);
-//		
-//	}
-//	
-	
 	
 	public ResponseEntity<ResponseStructure<Order>> placeuserorder(OrderDto orderDto) {
 
@@ -168,24 +121,6 @@ public class OrderService {
 
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 public ResponseEntity<ResponseStructure<Order>> updateorder(int orderid, int truckid) {
 			Order order=orderrespository.findById(orderid).orElseThrow(()-> new OrderIdNotPresentException());
 		Cargo cargo=order.getCargo();
@@ -220,39 +155,6 @@ public ResponseEntity<ResponseStructure<Order>> updateorder(int orderid, int tru
 		return new ResponseEntity<ResponseStructure<Order>>(rs,HttpStatus.OK);
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 @Autowired
@@ -301,68 +203,59 @@ public ResponseEntity<ResponseStructure<Order>> assignDriverToOrder(int orderId,
 }
 
 
-
-
-
-	
-
-
-
-
-
-
-public ResponseEntity<ResponseStructure<Order>> updateorderupdateloading(int orderid, Loading ldto) {
+public ResponseEntity<ResponseStructure<Order>> updateorderupdateloading(int orderid, LoadingDto ldto) {
     Order order = orderrespository.findById(orderid)
-                    .orElseThrow(() -> new OrderIdNotPresentException());
+            .orElseThrow(() -> new OrderIdNotPresentException());
 
-    // Update the **loading** correctly
-    order.getLoading().setDate(ldto.getDate());
-    order.getLoading().setTime(ldto.getTime());
+    Loading loading = order.getLoading();
+    if (loading == null) {
+        loading = new Loading();
+        order.setLoading(loading);
+    }
+
+    loading.setDate(ldto.getDate());
+    loading.setTime(ldto.getTime());
 
     orderrespository.save(order);
 
     String subject = "Your order is loaded";
-    String content = "Order loaded on Date " + order.getLoading().getDate() + " at Time " + order.getLoading().getTime();
+    String content = "Order loaded on Date " + loading.getDate() + " at Time " + loading.getTime();
     mailservice.sendMail(order.getMail(), subject, content);
 
     ResponseStructure<Order> rs = new ResponseStructure<>();
     rs.setStatuscode(HttpStatus.OK.value());
     rs.setMessage("Loading updated successfully");
     rs.setData(order);
-
     return new ResponseEntity<>(rs, HttpStatus.OK);
 }
 
+
 public ResponseEntity<ResponseStructure<Order>> UpdateOrderUpdateUnloading(int orderid, UnlaodingDto uldto) {
-	 Optional<Order> orderoptional=orderrespository.findById(orderid);
-	 
-	 if(!orderoptional.isPresent())
-	 {
-		 throw new OrderIdNotPresentException();
-	 }
-	 
-	 Order order= orderoptional.get();
-	  order.getUnloading().setDate(uldto.getDate());
-	  order.getUnloading().setTime(uldto.getTime());
-	  order.setStatus("Completed");
-	  
-	  orderrespository.save(order);
-	  
-	  String sub="your order is UNloaded";
-		String Content="Oder loaded on Date "+order.getUnloading().getDate()+"At Time"+order.getUnloading().getTime();
-		mailservice.sendMail(order.getMail(), sub, Content);
-	  
-	  ResponseStructure<Order> rs=new ResponseStructure<Order>();
-	  rs.setMessage("Order Updated");
-	  rs.setStatuscode(HttpStatus.CREATED.value());
-	  rs.setData(order);
-	  return new ResponseEntity<ResponseStructure<Order>>(rs,HttpStatus.ACCEPTED);
-	
+    Order order = orderrespository.findById(orderid)
+            .orElseThrow(() -> new OrderIdNotPresentException());
+
+    Unloading unloading = order.getUnloading();
+    if (unloading == null) {
+        unloading = new Unloading();
+        order.setUnloading(unloading);
+    }
+
+    unloading.setDate(uldto.getDate());
+    unloading.setTime(uldto.getTime());
+    order.setStatus("Completed");
+
+    orderrespository.save(order);
+
+    String sub = "Your order is unloaded";
+    String content = "Order unloaded on Date " + unloading.getDate() + " at Time " + unloading.getTime();
+    mailservice.sendMail(order.getMail(), sub, content);
+
+    ResponseStructure<Order> rs = new ResponseStructure<>();
+    rs.setMessage("Unloading updated successfully");
+    rs.setStatuscode(HttpStatus.ACCEPTED.value());
+    rs.setData(order);
+    return new ResponseEntity<>(rs, HttpStatus.ACCEPTED);
 }
-
-
-
-
 
 
 }
